@@ -383,6 +383,14 @@ namespace CheckoutSystem.Tests
             testCheckout.Scan("A");
             Assert.Equal(485, testCheckout.GetTotalPrice());
         }
+
+        [Fact]
+        public void GetTotalPrice_ForEmptyBasket_ThrowsError()
+        {
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+            var exception = Assert.Throws<InvalidOperationException>(() => testCheckout.GetTotalPrice());
+            Assert.Equal("Total Price cannot be calculated for an empty basket.", exception.Message);
+        }
         #endregion
     }
 }
