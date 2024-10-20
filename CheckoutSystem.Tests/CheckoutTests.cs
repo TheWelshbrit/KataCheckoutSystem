@@ -238,55 +238,150 @@ namespace CheckoutSystem.Tests
         [Fact]
         public void GetTotalPrice_Returns_SingleItem_ItemPrice()
         {
-
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+            testCheckout.Scan("D");
+            Assert.Equal(15, testCheckout.GetTotalPrice());
         }
         
         [Fact]
         public void GetTotalPrice_Returns_MultipleQuantity_TotalPrice()
         {
-            
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+            testCheckout.Scan("D");
+            testCheckout.Scan("D");
+            testCheckout.Scan("D");
+            Assert.Equal(45, testCheckout.GetTotalPrice());
         }
 
         [Fact]
         public void GetTotalPrice_Returns_MixedSingleItems_TotalPrice()
         {
-            
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+            testCheckout.Scan("B");
+            testCheckout.Scan("C");
+            testCheckout.Scan("D");
+            Assert.Equal(65, testCheckout.GetTotalPrice());
         }
 
         [Fact]
         public void GetTotalPrice_Returns_MixedMultipleQuantities_TotalPrice()
         {
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+            // 2xA, 3xC, 4xD
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("C");
+            testCheckout.Scan("C");
+            testCheckout.Scan("C");
+            testCheckout.Scan("D");
+            testCheckout.Scan("D");
+            testCheckout.Scan("D");
+            testCheckout.Scan("D");
             
+            Assert.Equal(220, testCheckout.GetTotalPrice());
         }
 
         [Fact]
         public void GetTotalPrice_Returns_SingleOffer_OfferPrice()
         {
-            
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            Assert.Equal(130, testCheckout.GetTotalPrice());   
         }
 
         [Fact]
         public void GetTotalPrice_Returns_OfferWithRemainder_TotalPrice()
         {
-            
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+            // 5xA
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            Assert.Equal(230, testCheckout.GetTotalPrice());
         }
 
         [Fact]
         public void GetTotalPrice_Returns_MultipleOfferSets_TotalPrice()
         {
-            
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+            // 9xA
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            Assert.Equal(390, testCheckout.GetTotalPrice());
         }
 
         [Fact]
         public void GetTotalPrice_Returns_MixedItemsAndOffers_TotalPrice()
         {
-            
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+            // 7xA, 5xB, 2xC, 1xD
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("B");
+            testCheckout.Scan("B");
+            testCheckout.Scan("B");
+            testCheckout.Scan("B");
+            testCheckout.Scan("B");
+            testCheckout.Scan("C");
+            testCheckout.Scan("C");
+            testCheckout.Scan("D");
+            Assert.Equal(485, testCheckout.GetTotalPrice());
         }
 
         [Fact]
         public void GetTotalPrice_TruncatesDecimalPrices()
         {
+            var testCheckout = new Checkout();
+            var decimalPriceItem = new List<ItemPrice>{
+                new ItemPrice { Sku = "E", Price = 10.15m }
+            };
+            testCheckout.InitialiseItems(decimalPriceItem, null);
 
+            // 3xE => 30.45
+            testCheckout.Scan("E");
+            testCheckout.Scan("E");
+            testCheckout.Scan("E");
+
+            Assert.Equal(30, testCheckout.GetTotalPrice());
+        }
+
+        [Fact]
+        public void GetTotalPrice_Returns_MixedItemsAndOrder_WithMismatchedScanning_TotalPrice()
+        {
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+            // 7xA, 5xB, 2xC, 1xD
+            testCheckout.Scan("A");
+            testCheckout.Scan("B");
+            testCheckout.Scan("A");
+            testCheckout.Scan("B");
+            testCheckout.Scan("A");
+            testCheckout.Scan("C");
+            testCheckout.Scan("A");
+            testCheckout.Scan("B");
+            testCheckout.Scan("D");
+            testCheckout.Scan("B");
+            testCheckout.Scan("A");
+            testCheckout.Scan("B");
+            testCheckout.Scan("C");
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            Assert.Equal(485, testCheckout.GetTotalPrice());
         }
         #endregion
     }
