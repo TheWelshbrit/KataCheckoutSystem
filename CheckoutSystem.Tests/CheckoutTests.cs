@@ -4,6 +4,7 @@ namespace CheckoutSystem.Tests
 {
     public class CheckoutTests
     {
+        #region Price and Offer Initialisation
         [Fact]
         public void Initialised_Prices_AreStored()
         {
@@ -22,6 +23,7 @@ namespace CheckoutSystem.Tests
                 Assert.Equal(expectedItem.Price, storedPrice.Price);
             }
         }
+
         [Fact]
         public void Initialised_Offers_AreStored()
         {
@@ -41,7 +43,8 @@ namespace CheckoutSystem.Tests
                 Assert.Equal(expectedOffer.OfferPrice, storedOffer.OfferPrice);
             }
         }
-            [Fact]
+
+        [Fact]
         public void NonExistingProduct_ThrowsError_WhenSettingOffer()
         {
             var offersToAdd = CheckoutTestMethods.GetDefaultOffers();
@@ -56,6 +59,7 @@ namespace CheckoutSystem.Tests
             var exception = Assert.Throws<InvalidOperationException>(() => testCheckout.InitialiseItems(CheckoutTestMethods.GetDefaultPrices(), offersToAdd));
             Assert.Equal("Special Offer Product not found.", exception.Message);
         }
+        
         [Fact]
         public void DuplicateProduct_ThrowsError_WhenSettingPrices()
         {
@@ -70,6 +74,7 @@ namespace CheckoutSystem.Tests
             var exception = Assert.Throws<DuplicateNameException>(() => testCheckout.InitialiseItems(itemsToAdd, null));
             Assert.Equal("A product with the given SKU already exists.", exception.Message);
         }
+        
         [Fact]
         public void DuplicateOffer_ThrowsError_WhenSettingOffers()
         {
@@ -85,5 +90,38 @@ namespace CheckoutSystem.Tests
             var exception = Assert.Throws<DuplicateNameException>(() => testCheckout.InitialiseItems(CheckoutTestMethods.GetDefaultPrices(), offersToAdd));
             Assert.Equal("An offer for the given SKU already exists.", exception.Message);
         }
+        #endregion
+
+        #region Scan Item
+        [Fact]
+        public void Scanned_SingleItem_IsAdded_ToScannedItems()
+        {
+            
+        }
+
+        [Fact]
+        public void Scanned_ExistingItem_IsNotDuplicated_InScannedItems()
+        {
+            
+        }
+
+        [Fact]
+        public void Scanned_ExistingItem_Increments_ScannedItemsQuantity()
+        {
+
+        }
+
+        [Fact]
+        public void Scanned_MultipleItems_AreAdded_ToScannedItems()
+        {
+
+        }
+
+        [Fact] 
+        public void Scanned_MultipleItems_AreRecorded_WithCorrectQuantities()
+        {
+
+        }
+        #endregion
     }
 }
