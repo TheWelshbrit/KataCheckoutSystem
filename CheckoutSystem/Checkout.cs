@@ -21,6 +21,7 @@ namespace CheckoutSystem
         
         public void InitialiseItems(List<ItemPrice> items, List<SpecialOffer> offers)
         {
+            scannedItems = new List<ScannedItem>();
             itemPrices = new List<ItemPrice>();
             foreach (var item in items)
             {
