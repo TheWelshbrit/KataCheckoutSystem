@@ -1,5 +1,6 @@
 using CheckoutSystem.Models;
-using System.Runtime.CompilerServices;
+using System.Data; // for use of "DuplicateNameException"
+using System.Runtime.CompilerServices; // To allow visibility of internal fields to test methods
 [assembly: InternalsVisibleTo("CheckoutSystem.Tests")]
 
 namespace CheckoutSystem
@@ -20,9 +21,17 @@ namespace CheckoutSystem
         
         public void InitialiseItems(List<ItemPrice> items, List<SpecialOffer> offers)
         {
-            itemPrices = items ?? new List<ItemPrice>();
+            itemPrices = new List<ItemPrice>();
+            foreach (var item in items)
+            {
+                if (itemPrices.Any(x => x.Sku == item.Sku))
+                {
+                    throw new DuplicateNameException("A product with the given SKU already exists.");
+                }
+                itemPrices.Add(item);
+            }
+            
             specialOffers = offers ?? new List<SpecialOffer>();
-
             foreach(var offer in specialOffers)
             {
                 if (!itemPrices.Any(x => x.Sku == offer.ProductSku))
