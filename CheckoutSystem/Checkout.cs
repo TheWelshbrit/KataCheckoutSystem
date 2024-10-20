@@ -72,6 +72,11 @@ namespace CheckoutSystem
 
         public int GetTotalPrice()
         {
+            if (scannedItems.Count() == 0)
+            {
+                throw new InvalidOperationException("Total Price cannot be calculated for an empty basket."); 
+            }
+
             decimal totalPrice = 0;
             foreach (var scannedItem in scannedItems)
             {
