@@ -1,0 +1,18 @@
+# Ignore build output directories
+CheckoutSystem/bin/
+CheckoutSystem/obj/
+CheckoutSystem.Tests/bin/
+CheckoutSystem.Tests/obj/
+
+# Ignore Visual Studio Code settings (if any)
+.vscode/
+
+# Ignore NuGet packages
+*.nupkg
+packages/
+
+# Ignore dll and other compiled files
+*.dll
+*.exe
+*.pdb
+*.log
