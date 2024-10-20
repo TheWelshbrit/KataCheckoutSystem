@@ -1,3 +1,5 @@
+using System.Data; // for use of "DuplicateNameException"
+
 namespace CheckoutSystem.Tests
 {
     public class CheckoutTests
@@ -53,6 +55,20 @@ namespace CheckoutSystem.Tests
             
             var exception = Assert.Throws<InvalidOperationException>(() => testCheckout.InitialiseItems(CheckoutTestMethods.GetDefaultPrices(), offersToAdd));
             Assert.Equal("Special Offer Product not found.", exception.Message);
+        }
+        [Fact]
+        public void DuplicateProduct_ThrowsError_WhenSettingPrices()
+        {
+            var itemsToAdd = CheckoutTestMethods.GetDefaultPrices();
+            itemsToAdd.Add(new ItemPrice{
+                Sku = "A",
+                Price = 1000M
+            });
+
+            var testCheckout = new Checkout();
+
+            var exception = Assert.Throws<DuplicateNameException>(() => testCheckout.InitialiseItems(itemsToAdd, null));
+            Assert.Equal("A product with the given SKU already exists.", exception.Message);
         }
     }
 }
