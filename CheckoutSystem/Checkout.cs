@@ -48,8 +48,20 @@ namespace CheckoutSystem
 
         public void Scan(string item)
         {
-            return;
+            var existingScannedItem = scannedItems.FirstOrDefault(x => x.ProductSku == item);
+            if (existingScannedItem != null)
+            {
+                existingScannedItem.Quantity++;
+            }
+            else
+            {
+                scannedItems.Add(new ScannedItem{
+                    ProductSku = item,
+                    Quantity = 1
+                });
+            }
         }
+        
         public int GetTotalPrice()
         {
             return 0;
