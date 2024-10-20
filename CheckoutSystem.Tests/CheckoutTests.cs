@@ -233,5 +233,61 @@ namespace CheckoutSystem.Tests
             Assert.Equal("Null or Empty SKU could not be scanned.", exception.Message);
         }
         #endregion
+    
+        #region Get Total Price
+        [Fact]
+        public void GetTotalPrice_Returns_SingleItem_ItemPrice()
+        {
+
+        }
+        
+        [Fact]
+        public void GetTotalPrice_Returns_MultipleQuantity_TotalPrice()
+        {
+            
+        }
+
+        [Fact]
+        public void GetTotalPrice_Returns_MixedSingleItems_TotalPrice()
+        {
+            
+        }
+
+        [Fact]
+        public void GetTotalPrice_Returns_MixedMultipleQuantities_TotalPrice()
+        {
+            
+        }
+
+        [Fact]
+        public void GetTotalPrice_Returns_SingleOffer_OfferPrice()
+        {
+            
+        }
+
+        [Fact]
+        public void GetTotalPrice_Returns_OfferWithRemainder_TotalPrice()
+        {
+            
+        }
+
+        [Fact]
+        public void GetTotalPrice_Returns_MultipleOfferSets_TotalPrice()
+        {
+            
+        }
+
+        [Fact]
+        public void GetTotalPrice_Returns_MixedItemsAndOffers_TotalPrice()
+        {
+            
+        }
+
+        [Fact]
+        public void GetTotalPrice_TruncatesDecimalPrices()
+        {
+
+        }
+        #endregion
     }
 }
