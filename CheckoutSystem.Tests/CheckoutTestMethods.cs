@@ -20,5 +20,12 @@ namespace CheckoutSystem.Tests
                 new SpecialOffer { ProductSku = "B", RequiredQuantity = 2, OfferPrice = 45 }
             };
         }
+
+        public static Checkout GetInitialisedCheckout()
+        {
+            var testCheckout = new Checkout();
+            testCheckout.InitialiseItems(GetDefaultPrices(), GetDefaultOffers());
+            return testCheckout;
+        }
     }    
 }

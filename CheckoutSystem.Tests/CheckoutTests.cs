@@ -96,31 +96,105 @@ namespace CheckoutSystem.Tests
         [Fact]
         public void Scanned_SingleItem_IsAdded_ToScannedItems()
         {
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+            testCheckout.Scan("A");
+
+            Assert.Equal(testCheckout.scannedItems.Count(), 1);
             
+            var scannedItem = testCheckout.scannedItems.First();
+            Assert.Equal(scannedItem.ProductSku, "A");
+            Assert.Equal(scannedItem.Quantity, 1);
         }
 
         [Fact]
         public void Scanned_ExistingItem_IsNotDuplicated_InScannedItems()
         {
-            
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+
+            Assert.Equal(testCheckout.scannedItems.Count(), 1);
+            Assert.Equal(testCheckout.scannedItems.First().ProductSku, "A");
         }
 
         [Fact]
         public void Scanned_ExistingItem_Increments_ScannedItemsQuantity()
         {
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
 
+            Assert.Equal(testCheckout.scannedItems.Count(), 1);
+            var scannedItem = testCheckout.scannedItems.First();
+            Assert.Equal(scannedItem.ProductSku, "A");
+            Assert.Equal(scannedItem.Quantity, 2);
         }
 
         [Fact]
         public void Scanned_MultipleItems_AreAdded_ToScannedItems()
         {
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+            testCheckout.Scan("A");
+            testCheckout.Scan("B");
 
+            Assert.Equal(testCheckout.scannedItems.Count(), 2);
+            Assert.True(testCheckout.scannedItems.Any(x => x.ProductSku == "A"));
+            Assert.True(testCheckout.scannedItems.Any(x => x.ProductSku == "B"));
         }
 
         [Fact] 
         public void Scanned_MultipleItems_AreRecorded_WithCorrectQuantities()
         {
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+            testCheckout.Scan("A");
+            testCheckout.Scan("A");
+            testCheckout.Scan("B");
+            testCheckout.Scan("B");
+            testCheckout.Scan("B");
 
+            Assert.Equal(testCheckout.scannedItems.Count(), 2);
+
+            var scannedItemA = testCheckout.scannedItems.FirstOrDefault(x => x.ProductSku == "A");
+            var scannedItemB = testCheckout.scannedItems.FirstOrDefault(x => x.ProductSku == "B");
+            
+            Assert.Equal(scannedItemA.ProductSku, "A");
+            Assert.Equal(scannedItemA.Quantity, 2);
+            Assert.Equal(scannedItemB.ProductSku, "B");
+            Assert.Equal(scannedItemB.Quantity, 3);            
+        }
+
+        [Fact]
+        public void Scanned_MixedOrderItems_AreRecorded_WithCorrectQuantities()
+        {
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+
+            // 1xA, 2xB, 3xC, 4xD
+            testCheckout.Scan("A");
+            testCheckout.Scan("B");
+            testCheckout.Scan("C");
+            testCheckout.Scan("D");
+            testCheckout.Scan("B");
+            testCheckout.Scan("C");
+            testCheckout.Scan("D");
+            testCheckout.Scan("C");
+            testCheckout.Scan("D");
+            testCheckout.Scan("D");
+
+            Assert.Equal(testCheckout.scannedItems.Count(), 4);
+
+            var scannedItemA = testCheckout.scannedItems.FirstOrDefault(x => x.ProductSku == "A");
+            var scannedItemB = testCheckout.scannedItems.FirstOrDefault(x => x.ProductSku == "B");
+            var scannedItemC = testCheckout.scannedItems.FirstOrDefault(x => x.ProductSku == "C");
+            var scannedItemD = testCheckout.scannedItems.FirstOrDefault(x => x.ProductSku == "D");
+            
+            Assert.Equal(scannedItemA.ProductSku, "A");
+            Assert.Equal(scannedItemA.Quantity, 1);
+            Assert.Equal(scannedItemB.ProductSku, "B");
+            Assert.Equal(scannedItemB.Quantity, 2);
+            Assert.Equal(scannedItemC.ProductSku, "C");
+            Assert.Equal(scannedItemC.Quantity, 3);
+            Assert.Equal(scannedItemD.ProductSku, "D");
+            Assert.Equal(scannedItemD.Quantity, 4);
         }
         #endregion
     }
