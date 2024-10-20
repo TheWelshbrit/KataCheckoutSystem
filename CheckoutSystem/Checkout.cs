@@ -18,6 +18,11 @@ namespace CheckoutSystem
             scannedItems = new List<ScannedItem>();
         }
         
+        public void InitialiseItems(List<ItemPrice> items, List<SpecialOffer> offers)
+        {
+            return;
+        }
+
         public void Scan(string item)
         {
             return;
