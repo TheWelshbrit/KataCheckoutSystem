@@ -105,6 +105,34 @@ namespace CheckoutSystem.Tests
 
             Assert.Equal(0, testCheckout.scannedItems.Count());
         }
+        
+        [Theory] // decimal values may not be used as Inline data, using a float instead and casting to decimal within the method
+        [InlineData(0f)]
+        [InlineData(-22f)]
+        public void SettingProductPrice_ToZeroOrNegative_ThrowsError(double invalidPrice)
+        {
+            var testCheckout = new Checkout();
+            var invalidlyPricedItem = new List<ItemPrice>{
+                new ItemPrice { Sku = "E", Price = (decimal)invalidPrice }
+            };
+
+            var exception = Assert.Throws<DuplicateNameException>(() => testCheckout.InitialiseItems(invalidlyPricedItem, null));
+            Assert.Equal("Item prices may not be set to zero or negative values.", exception.Message);            
+        }
+
+        [Theory] // decimal values may not be used as Inline data, using a float instead and casting to decimal within the method
+        [InlineData(0f)]
+        [InlineData(-11f)]
+        public void SettingOfferPrice_ToZeroOrNegative_ThrowsError(double invalidPrice)
+        {
+            var testCheckout = new Checkout();
+            var invalidlyPricedOffer = new List<SpecialOffer>{
+                new SpecialOffer { ProductSku = "C", RequiredQuantity = 42, OfferPrice = (decimal)invalidPrice }
+            };
+
+            var exception = Assert.Throws<DuplicateNameException>(() => testCheckout.InitialiseItems(CheckoutTestMethods.GetDefaultPrices(), invalidlyPricedOffer));
+            Assert.Equal("Offer prices may not be set to zero or negative values.", exception.Message);     
+        }
         #endregion
 
         #region Scan Item
