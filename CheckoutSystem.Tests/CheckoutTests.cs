@@ -39,5 +39,20 @@ namespace CheckoutSystem.Tests
                 Assert.Equal(expectedOffer.OfferPrice, storedOffer.OfferPrice);
             }
         }
+            [Fact]
+        public void NonExistingProduct_ThrowsError_WhenSettingOffer()
+        {
+            var offersToAdd = CheckoutTestMethods.GetDefaultOffers();
+            offersToAdd.Add(new SpecialOffer{
+                ProductSku = "Z",
+                RequiredQuantity = 5,
+                OfferPrice = 100M
+            });
+
+            var testCheckout = new Checkout();
+            
+            var exception = Assert.Throws<InvalidOperationException>(() => testCheckout.InitialiseItems(CheckoutTestMethods.GetDefaultPrices(), offersToAdd));
+            Assert.Equal("Special Offer Product not found.", exception.Message);
+        }
     }
 }
