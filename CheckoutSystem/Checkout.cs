@@ -20,7 +20,8 @@ namespace CheckoutSystem
         
         public void InitialiseItems(List<ItemPrice> items, List<SpecialOffer> offers)
         {
-            return;
+            itemPrices = items ?? new List<ItemPrice>();
+            specialOffers = offers ?? new List<SpecialOffer>();
         }
 
         public void Scan(string item)
