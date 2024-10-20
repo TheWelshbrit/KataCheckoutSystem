@@ -22,6 +22,14 @@ namespace CheckoutSystem
         {
             itemPrices = items ?? new List<ItemPrice>();
             specialOffers = offers ?? new List<SpecialOffer>();
+
+            foreach(var offer in specialOffers)
+            {
+                if (!itemPrices.Any(x => x.Sku == offer.ProductSku))
+                {
+                    throw new InvalidOperationException("Special Offer Product not found."); 
+                }
+            }
         }
 
         public void Scan(string item)
