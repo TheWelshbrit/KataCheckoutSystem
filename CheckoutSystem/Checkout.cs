@@ -29,6 +29,10 @@ namespace CheckoutSystem
                 {
                     throw new DuplicateNameException("A product with the given SKU already exists.");
                 }
+                if (item.Price <= 0)
+                {
+                    throw new InvalidOperationException("Item prices may not be set to zero or negative values.");
+                }
                 itemPrices.Add(item);
             }
             
@@ -42,6 +46,10 @@ namespace CheckoutSystem
                 if (specialOffers.Any(x => x.ProductSku == offer.ProductSku))
                 {
                     throw new DuplicateNameException("An offer for the given SKU already exists.");
+                }
+                if (offer.OfferPrice <= 0)
+                {
+                    throw new InvalidOperationException("Offer prices may not be set to zero or negative values.");
                 }
                 specialOffers.Add(offer);
             }
