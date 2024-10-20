@@ -196,6 +196,42 @@ namespace CheckoutSystem.Tests
             Assert.Equal(scannedItemD.ProductSku, "D");
             Assert.Equal(scannedItemD.Quantity, 4);
         }
+
+        [Fact]
+        public void Scanned_UnrecognisedProduct_ThrowsError()
+        {
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+
+            var exception = Assert.Throws<InvalidOperationException>(() => testCheckout.Scan("Z"));
+            Assert.Equal("A product with the given SKU could not be found.", exception.Message);
+        }
+        
+        [Fact]
+        public void Scanned_NullSku_ThrowsError()
+        {
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+
+            var exception = Assert.Throws<InvalidOperationException>(() => testCheckout.Scan(null));
+            Assert.Equal("Null or Empty SKU could not be scanned", exception.Message);
+        }
+         
+        [Fact]
+        public void Scanned_EmptySku_ThrowsError()
+        {
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+
+            var exception = Assert.Throws<InvalidOperationException>(() => testCheckout.Scan(string.Empty));
+            Assert.Equal("Null or Empty SKU could not be scanned", exception.Message);
+        }
+
+        [Fact]
+        public void Scanned_WhiteSpaceSku_ThrowsError()
+        {
+            var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
+
+            var exception = Assert.Throws<InvalidOperationException>(() => testCheckout.Scan("   "));
+            Assert.Equal("Null or Empty SKU could not be scanned", exception.Message);
+        }
         #endregion
     }
 }
