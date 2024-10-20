@@ -90,6 +90,21 @@ namespace CheckoutSystem.Tests
             var exception = Assert.Throws<DuplicateNameException>(() => testCheckout.InitialiseItems(CheckoutTestMethods.GetDefaultPrices(), offersToAdd));
             Assert.Equal("An offer for the given SKU already exists.", exception.Message);
         }
+        
+        [Fact]
+        public void ExistingScannedItems_AreCleared_WhenSettingPrices()
+        {
+            var defaultPrices = CheckoutTestMethods.GetDefaultPrices();
+            var testCheckout = new Checkout();
+            
+            testCheckout.InitialiseItems(defaultPrices, null);
+            testCheckout.Scan("A");
+            testCheckout.Scan("B");
+            testCheckout.Scan("C");
+            testCheckout.InitialiseItems(defaultPrices, null);
+
+            Assert.Equal(0, testCheckout.scannedItems.Count());
+        }
         #endregion
 
         #region Scan Item
