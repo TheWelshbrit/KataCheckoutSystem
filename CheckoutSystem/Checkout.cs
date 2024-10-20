@@ -72,7 +72,26 @@ namespace CheckoutSystem
 
         public int GetTotalPrice()
         {
-            return 0;
+            decimal totalPrice = 0;
+            foreach (var scannedItem in scannedItems)
+            {
+                var relevantItem = itemPrices.FirstOrDefault(x => x.Sku == scannedItem.ProductSku);
+                var relevantOffer = specialOffers.FirstOrDefault(x => x.ProductSku == scannedItem.ProductSku);
+                
+                if (relevantOffer != null)
+                {
+                    var fullSets = (int)(scannedItem.Quantity / relevantOffer.RequiredQuantity);
+                    int remainingQuantity = scannedItem.Quantity % relevantOffer.RequiredQuantity;
+                    totalPrice += (fullSets * relevantOffer.OfferPrice) + (remainingQuantity * relevantItem.Price);
+                }
+                else
+                {
+                    totalPrice += scannedItem.Quantity * relevantItem.Price;
+                }
+            }
+            return (int)totalPrice; 
+            // This return cast will convert from decimal to int by truncating the decimal portion of the number, essentially always rounding down.
+            // But I'm sure our shop's marketing team can make an advert out of helping our customers to "save their pennies"!
         }
     }
 }
