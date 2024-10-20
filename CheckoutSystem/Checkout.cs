@@ -31,13 +31,18 @@ namespace CheckoutSystem
                 itemPrices.Add(item);
             }
             
-            specialOffers = offers ?? new List<SpecialOffer>();
-            foreach(var offer in specialOffers)
+            specialOffers = new List<SpecialOffer>();
+            foreach(var offer in offers ?? new List<SpecialOffer>())
             {
                 if (!itemPrices.Any(x => x.Sku == offer.ProductSku))
                 {
                     throw new InvalidOperationException("Special Offer Product not found."); 
                 }
+                if (specialOffers.Any(x => x.ProductSku == offer.ProductSku))
+                {
+                    throw new DuplicateNameException("An offer for the given SKU already exists.");
+                }
+                specialOffers.Add(offer);
             }
         }
 
