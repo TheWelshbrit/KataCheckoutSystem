@@ -212,7 +212,7 @@ namespace CheckoutSystem.Tests
             var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
 
             var exception = Assert.Throws<InvalidOperationException>(() => testCheckout.Scan(null));
-            Assert.Equal("Null or Empty SKU could not be scanned", exception.Message);
+            Assert.Equal("Null or Empty SKU could not be scanned.", exception.Message);
         }
          
         [Fact]
@@ -221,7 +221,7 @@ namespace CheckoutSystem.Tests
             var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
 
             var exception = Assert.Throws<InvalidOperationException>(() => testCheckout.Scan(string.Empty));
-            Assert.Equal("Null or Empty SKU could not be scanned", exception.Message);
+            Assert.Equal("Null or Empty SKU could not be scanned.", exception.Message);
         }
 
         [Fact]
@@ -230,7 +230,7 @@ namespace CheckoutSystem.Tests
             var testCheckout = CheckoutTestMethods.GetInitialisedCheckout();
 
             var exception = Assert.Throws<InvalidOperationException>(() => testCheckout.Scan("   "));
-            Assert.Equal("Null or Empty SKU could not be scanned", exception.Message);
+            Assert.Equal("Null or Empty SKU could not be scanned.", exception.Message);
         }
         #endregion
     }

@@ -48,6 +48,14 @@ namespace CheckoutSystem
 
         public void Scan(string item)
         {
+            if (string.IsNullOrWhiteSpace(item))
+            {
+                throw new InvalidOperationException("Null or Empty SKU could not be scanned."); 
+            }
+            if (!itemPrices.Any(x => x.Sku == item))
+            {
+                throw new InvalidOperationException("A product with the given SKU could not be found."); 
+            }
             var existingScannedItem = scannedItems.FirstOrDefault(x => x.ProductSku == item);
             if (existingScannedItem != null)
             {
@@ -61,7 +69,7 @@ namespace CheckoutSystem
                 });
             }
         }
-        
+
         public int GetTotalPrice()
         {
             return 0;
