@@ -116,7 +116,7 @@ namespace CheckoutSystem.Tests
                 new ItemPrice { Sku = "E", Price = (decimal)invalidPrice }
             };
 
-            var exception = Assert.Throws<DuplicateNameException>(() => testCheckout.InitialiseItems(invalidlyPricedItem, null));
+            var exception = Assert.Throws<InvalidOperationException>(() => testCheckout.InitialiseItems(invalidlyPricedItem, null));
             Assert.Equal("Item prices may not be set to zero or negative values.", exception.Message);            
         }
 
@@ -130,7 +130,7 @@ namespace CheckoutSystem.Tests
                 new SpecialOffer { ProductSku = "C", RequiredQuantity = 42, OfferPrice = (decimal)invalidPrice }
             };
 
-            var exception = Assert.Throws<DuplicateNameException>(() => testCheckout.InitialiseItems(CheckoutTestMethods.GetDefaultPrices(), invalidlyPricedOffer));
+            var exception = Assert.Throws<InvalidOperationException>(() => testCheckout.InitialiseItems(CheckoutTestMethods.GetDefaultPrices(), invalidlyPricedOffer));
             Assert.Equal("Offer prices may not be set to zero or negative values.", exception.Message);     
         }
         #endregion
