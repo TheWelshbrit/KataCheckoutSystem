@@ -43,4 +43,5 @@ This project, implemented as a code kata for the second stage of an interview wi
   - I concluded however that it is more aligned with standard practice to have a single test class for the testing of the single checkout class.
   - In an effort to maintain some form of structure however, I have organized the testing of each method by utilizing code regions, making navigation easier for the reader.
   - These regions allow for readers to quickly navigate the code sections by searching for the "#region" keyword, or using the collapsable sections which the keyword provides to code editors such as Visual Studio.
+  - I have utilised the functionality of InternalsVisibleTo to allow for the testing project to see the internal fields of the Checkout.cs class. Whilst for the purposes of this excercise I believe this to have been a good choice as it keeps the code simple and easy to work with, for a production environment I would instead suggest we consider making the fields private and utilising getter methods or helper classes to provide this visibility.
 
